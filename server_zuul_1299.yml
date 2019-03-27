@@ -1,0 +1,49 @@
+﻿spring:
+  profiles:
+    active: dev
+
+---
+server:
+  port: 1299
+spring:
+  application:
+    name: MICROSERVICE-ZUUL-GATEWAY #服务名
+  profiles: dev
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka #注册中心地址
+  instance:
+    instance-id: gateway-1299.com  #路由名，可以不要
+    prefer-ip-address: true
+zuul:
+  ignored-services: "*"  # 安全加固：忽略这个服务，如果要忽略所有的服务， “*”
+  prefix: "/aigou"  # 统一前缀
+  routes:
+    user.serviceId: user-service
+    user.path: /user/**  
+ 
+
+
+---
+server:
+  port: 1399
+spring:
+  application:
+    name: MICROSERVICE-ZUUL-GATEWAY #服务名
+  profiles: test
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka #注册中心地址
+  instance:
+    instance-id: gateway-1399.com  #路由名，可以不要
+    prefer-ip-address: true
+zuul:
+  ignored-services: "*"  # 安全加固：忽略这个服务，如果要忽略所有的服务， “*”
+  prefix: "/aigou"  # 统一前缀
+  routes:
+    user.serviceId: user-service
+    user.path: /user/**  #路由映射：/wbUser/**这个路径的访问都路由到serverId服务处理
+  
+
